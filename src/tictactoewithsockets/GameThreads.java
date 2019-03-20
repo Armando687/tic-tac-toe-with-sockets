@@ -8,7 +8,7 @@ import java.util.LinkedList;
 
 /**
  *
- * @author jose armando Lopez Rodriguez
+ * @author jose Armando Lopez Rodriguez
  */
 public class GameThreads implements Runnable{
  
@@ -16,7 +16,7 @@ public class GameThreads implements Runnable{
     private DataOutputStream output;
     private DataInputStream intput;
     private int players;
-    private int game[][];
+    private static int game[][];
     private Boolean inning;
     private LinkedList<Socket> users = new LinkedList<Socket>();
 
@@ -51,7 +51,7 @@ public class GameThreads implements Runnable{
                 movement += row + ";";
                 movement += column + ";";
                 
-                boolean winner = winner(players);
+                boolean winner = gameOver(players);
                 boolean full = full();
                 
                 if(!winner && !full){
@@ -80,7 +80,7 @@ public class GameThreads implements Runnable{
         }
     }
 
-    private boolean winner(int players) {
+    private boolean gameOver(int players) {
         for (int i = 0; i < 3; i++) {
             boolean winner = true;
             for (int j = 0; j < 3; j++) {
@@ -100,6 +100,7 @@ public class GameThreads implements Runnable{
             }     
         }
         if(game[0][0] == players && game[1][1] == players && game[2][2] == players) return true;
+        if(game[0][2] == players && game[1][1] == players && game[2][0] == players) return true;
         
         return false;
         
@@ -109,6 +110,7 @@ public class GameThreads implements Runnable{
          for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
                 if(game[i][j] == -1)return false;
+                
             }
         }
         
@@ -123,6 +125,7 @@ public class GameThreads implements Runnable{
                 }
         }
     }
+  
     
 }
     
