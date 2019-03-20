@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package tictactoewithsockets;
 
 import java.io.DataInputStream;
@@ -39,7 +34,7 @@ public class GameThreads implements Runnable{
             output = new DataOutputStream(socket.getOutputStream());
             inning = players == 1;
             String message = "";
-            message += "Juega :" + (inning ? "X;":"O;");
+            message += "Juega: " + (inning ? "X;":"O;");
             message +=  inning;
             output.writeUTF(message);
             
@@ -89,21 +84,22 @@ public class GameThreads implements Runnable{
         for (int i = 0; i < 3; i++) {
             boolean winner = true;
             for (int j = 0; j < 3; j++) {
-                winner = winner && (game[i][j] == players);
-                if(winner){
-                    return true;
-                 }
+                winner = winner && (game[i][j] == players);        
             }
-            
-            for (int j = 0; j < 3; j++) {
-                winner = winner && (game[j][i] == players);
-                if(winner){
-                    return true;
-                }
-            }
-            
+            if(winner){
+                return true;
+            }     
         }
-        if(game[0][0] == players && game[1][1] == players && game[3][3] == players) return true;
+        for (int i = 0; i < 3; i++) {
+            boolean winner = true;
+            for (int j = 0; j < 3; j++) {
+                winner = winner && (game[j][i] == players);        
+            }
+            if(winner){
+                return true;
+            }     
+        }
+        if(game[0][0] == players && game[1][1] == players && game[2][2] == players) return true;
         
         return false;
         
@@ -129,3 +125,5 @@ public class GameThreads implements Runnable{
     }
     
 }
+    
+
